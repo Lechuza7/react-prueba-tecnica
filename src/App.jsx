@@ -32,12 +32,23 @@ export function App() {
       });
   }, [fact]);
 
+  const handleClick = () => {
+    fetch(CAT_ENDPOINT_RANDOM_FACT)
+      .then((res) => res.json())
+      .then((data) => {
+        const { fact } = data;
+        setFact(fact);
+      });
+  }
+
   // encapsulamos la parte estática de la url de la api en CAT_PREFIX... para poder interpolar esa parte directamente
   // en el src de la img en el return, y dejar dentro del useEffect únicamente la información variable que necesitamos 
   // que este recupere
   return (
     <main>
       <h1>App de gatitos</h1>
+
+      <button onClick={handleClick}>Get new fact</button>
       {fact && <p>{fact}</p>}
       {imageUrl && (
         <img
