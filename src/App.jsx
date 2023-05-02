@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import "./App.css";
+import { getRandomFact } from "./services/facts";
 
-const CAT_ENDPOINT_RANDOM_FACT = "https://catfact.ninja/fact";
 const CAT_PREFIX_IMAGE_URL = "https://cataas.com";
 
 export function App() {
@@ -10,12 +10,7 @@ export function App() {
 
   // para recuperar la cita (fact) al cargar la página
   useEffect(() => {
-    fetch(CAT_ENDPOINT_RANDOM_FACT)
-      .then((res) => res.json())
-      .then((data) => {
-        const { fact } = data;
-        setFact(fact);
-      });
+    getRandomFact().then((newFact) => setFact(newFact));
   }, []);
 
   //para recuperar la imagen cada vez que la cita cambia
@@ -24,7 +19,9 @@ export function App() {
 
     const firstWord = fact.split(" ")[0];
 
-    fetch(`https://cataas.com/cat/says/${firstWord}?size=50&color=red&json=true`)
+    fetch(
+      `https://cataas.com/cat/says/${firstWord}?size=50&color=red&json=true`
+    )
       .then((res) => res.json())
       .then((response) => {
         const { url } = response;
@@ -33,16 +30,11 @@ export function App() {
   }, [fact]);
 
   const handleClick = () => {
-    fetch(CAT_ENDPOINT_RANDOM_FACT)
-      .then((res) => res.json())
-      .then((data) => {
-        const { fact } = data;
-        setFact(fact);
-      });
-  }
+    getRandomFact().then((newFact) => setFact(newFact));
+  };
 
   // encapsulamos la parte estática de la url de la api en CAT_PREFIX... para poder interpolar esa parte directamente
-  // en el src de la img en el return, y dejar dentro del useEffect únicamente la información variable que necesitamos 
+  // en el src de la img en el return, y dejar dentro del useEffect únicamente la información variable que necesitamos
   // que este recupere
   return (
     <main>
