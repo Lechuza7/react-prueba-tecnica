@@ -8,12 +8,14 @@ export function App() {
   const [fact, setFact] = useState("");
   const [imageUrl, setImageUrl] = useState("");
 
-  // para recuperar la cita (fact) al cargar la página
+  // para recuperar la cita (fact) al cargar la página. Como necesitamos recuperar fact desde varios 
+  // sitios (useEffect, button), creamos un service aparte para encapsular la lógica y hacerla reutilizable,
+  // y así simplemente invocamos getRandomFact() haciendo el código más limpio y refactorizable.
   useEffect(() => {
     getRandomFact().then((newFact) => setFact(newFact));
   }, []);
 
-  //para recuperar la imagen cada vez que la cita cambia
+  // para recuperar la imagen cada vez que la cita cambia
   useEffect(() => {
     if (!fact) return;
 
@@ -33,9 +35,9 @@ export function App() {
     getRandomFact().then((newFact) => setFact(newFact));
   };
 
-  // encapsulamos la parte estática de la url de la api en CAT_PREFIX... para poder interpolar esa parte directamente
-  // en el src de la img en el return, y dejar dentro del useEffect únicamente la información variable que necesitamos
-  // que este recupere
+  // encapsulamos la parte estática de la url de la api en CAT_PREFIX_ para poder interpolar esa parte directamente
+  // en el src de la img del return, y dejar dentro del useEffect únicamente la información variable que necesitamos
+  // que este recupere.
   return (
     <main>
       <h1>App de gatitos</h1>
