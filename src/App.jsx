@@ -4,8 +4,6 @@ import { useCatFact } from './hooks/useCatFact'
 // import { getRandomImage } from './services/images'
 // import { getRandomFact } from './services/facts'
 
-const CAT_PREFIX_IMAGE_URL = 'https://cataas.com'
-
 export function App () {
   const { fact, refreshFact } = useCatFact()
   const { imageUrl } = useCatImage({ fact })
@@ -23,7 +21,7 @@ export function App () {
       {fact && <p>{fact}</p>}
       {imageUrl && (
         <img
-          src={`${CAT_PREFIX_IMAGE_URL}${imageUrl}`}
+          src={imageUrl}
           alt={`Image extracted using the first three word of ${fact}`}
         />
       )}
