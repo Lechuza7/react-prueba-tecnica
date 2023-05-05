@@ -1,32 +1,17 @@
-import { useState, useEffect } from 'react'
 import './App.css'
-import { getRandomFact } from './services/facts'
-import { getRandomImage } from './services/images'
+import { useCatImage } from './hooks/useCatImage'
+import { useCatFact } from './hooks/useCatFact'
+// import { getRandomImage } from './services/images'
+// import { getRandomFact } from './services/facts'
 
 const CAT_PREFIX_IMAGE_URL = 'https://cataas.com'
 
 export function App () {
-  const [fact, setFact] = useState('')
-  const [imageUrl, setImageUrl] = useState('')
-
-  // para recuperar la cita (fact) al cargar la página. Como necesitamos recuperar fact desde varios
-  // sitios (useEffect, button), creamos un service aparte para encapsular la lógica y hacerla reutilizable,
-  // y así simplemente invocamos getRandomFact() haciendo el código más limpio y refactorizable.
-  useEffect(() => {
-    getRandomFact().then((newFact) => setFact(newFact))
-  }, [])
-
-  // para recuperar la imagen cada vez que la cita cambia
-  useEffect(() => {
-    if (!fact) return
-    const firstWord = fact.split(' ')[0]
-    getRandomImage(firstWord).then((newUrl) => setImageUrl(newUrl))
-  }, [fact])
-
+  const { fact, refreshFact } = useCatFact()
+  const { imageUrl } = useCatImage({ fact })
   const handleClick = () => {
-    getRandomFact().then((newFact) => setFact(newFact))
+    refreshFact()
   }
-
   // encapsulamos la parte estática de la url de la api en CAT_PREFIX_ para poder interpolar esa parte directamente
   // en el src de la img del return, y dejar dentro del useEffect únicamente la información variable que necesitamos
   // que este recupere.

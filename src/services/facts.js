@@ -1,5 +1,7 @@
 const CAT_ENDPOINT_RANDOM_FACT = 'https://catfact.ninja/fact'
-
+// Como necesitamos recuperar fact desde varios
+// sitios (useEffect, button), creamos un service aparte para encapsular la lógica y hacerla reutilizable,
+// y así simplemente invocamos getRandomFact() haciendo el código más limpio y refactorizable.
 // Muy importante no olvidar hacer return del fetch también
 export const getRandomFact = () => {
   return fetch(CAT_ENDPOINT_RANDOM_FACT)
